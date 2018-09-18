@@ -8,11 +8,6 @@ namespace WebPages
     public class Yahoo
     {
 
-        // add references and chrome browser
-        // add search box element
-
-        // input id = "uh-search-box"
-
         private IWebDriver driver;
         private const string url = "https://www.yahoo.com/";
 
@@ -24,9 +19,9 @@ namespace WebPages
 
         private IWebElement SearchBox
         {
-            get 
+            get
             {
-                return driver.FindElement(By.XPath(".//*[@id='uh-search-box']"));
+                return driver.FindElement(By.Id("uh-search-box"));
             }
         }
 
@@ -34,14 +29,34 @@ namespace WebPages
         {
             get
             {
-                return driver.FindElement(By.XPath(".//*[@id='uh-search-button']"));
+                return driver.FindElement(By.Id("uh-search-button"));
             }
         }
 
-        public void SearchText(string text)
+        private IWebElement Logo
+        {
+            get
+            {
+                return driver.FindElement(By.Id("uh-logo"));
+            }
+        }
+
+        public void InputSearchText(string text)
         {
             SearchBox.SendKeys(text);
+        }
+
+        public void ClearSearchField()
+        {
+            SearchBox.Clear();
+        }
+
+        // Launches search of the current content of the search text field.
+        // Results are returned encapsulated into SearchResults object.
+        public SearchResults Search()
+        {
             SearchButton.Click();
+            return new SearchResults(driver);
         }
 
 

@@ -21,12 +21,30 @@ namespace Tests
 
         }
 
-        [Test]
-        public void Test1()
+        [TestCase("test", "https://www.merriam-webster.com/dictionary/test")]
+        public void SearchTest(string text, string resultURL)
         {
-            webpage.SearchText("test");
+            // TODO: Change thread sleep to more adequate waiting
+            webpage.InputSearchText(text);
             System.Threading.Thread.Sleep(5000);
-            Assert.Pass();
+
+            SearchResults results = webpage.Search();
+            Assert.True(results.IsResultPresent(resultURL));
+            System.Threading.Thread.Sleep(5000);
+        }
+
+        [Test]
+        public void FirstSearchResultClickTest()
+        {
+            // TODO: Change thread sleep to more adequate waiting
+            webpage.InputSearchText("something");
+            SearchResults results = webpage.Search();
+            System.Threading.Thread.Sleep(5000);
+            
+            results.ClickOnFirstSearchResult();
+            System.Threading.Thread.Sleep(5000);
+            // TODO: Add some kind of Assert
+
         }
 
         [TearDown]
